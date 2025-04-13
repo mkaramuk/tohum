@@ -5,17 +5,17 @@ use std::{collections::HashMap, fs};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Metadata {
-    version: String,
-    name: String,
-    group: String,
-    author: Author,
-    variables: HashMap<String, CustomVariable>,
+    pub version: String,
+    pub name: String,
+    pub group: String,
+    pub author: Author,
+    pub variables: HashMap<String, CustomVariable>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Author {
-    name: String,
-    url: Option<String>,
+    pub name: String,
+    pub url: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -27,9 +27,9 @@ pub enum CustomVariableType {
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct CustomVariable {
-    description: String,
-    r#type: CustomVariableType,
-    default: Value,
+    pub description: String,
+    pub r#type: CustomVariableType,
+    pub default: Value,
 }
 
 pub fn parse_metadata_from_file(path: &str) -> Result<Metadata> {

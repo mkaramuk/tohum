@@ -1,7 +1,7 @@
 mod functions;
 use crate::functions::get_template_from_repo::get_template_from_repo;
 use crate::functions::replace_vars::replace_placeholders_in_dir;
-use std::path::Path;
+use std::{collections::HashMap, path::Path};
 mod metadata;
 
 use anyhow::Result;
@@ -45,8 +45,21 @@ async fn main() -> Result<()> {
                 }
                 Ok(_) => {
                     let target_dir = Path::new(project_name.as_str());
-                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), &project_name)
-                        .expect("TODO: panic message");
+                    let data = metadata::parse_metadata_from_file(&format!(
+                        "{}/{}",
+                        target_dir.to_str().unwrap(),
+                        "metadata.json"
+                    ))?;
+                    let mut variables: HashMap<&str, String> = HashMap::new();
+
+                    variables.insert("project_name", project_name.clone());
+
+                    for (var_name, value) in &data.variables {
+                        // TODO: Find values of the variables from command line arguments
+                        variables.insert(var_name, String::from(value.default.to_string()));
+                    }
+
+                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), variables)?;
                 }
             }
 

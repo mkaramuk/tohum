@@ -1,11 +1,14 @@
 mod functions;
-use  std::path::{Path};
 use crate::functions::get_template_from_repo::get_template_from_repo;
 use crate::functions::replace_vars::replace_placeholders_in_dir;
+use std::path::Path;
+mod metadata;
+
+use anyhow::Result;
 use clap::{Arg, ArgAction, Command};
 
 #[tokio::main]
-async fn main() {
+async fn main() -> Result<()> {
     let command = Command::new("maker")
         .about("project provisioning tool")
         .version("0.1.0")
@@ -42,7 +45,8 @@ async fn main() {
                 }
                 Ok(_) => {
                     let target_dir = Path::new(project_name.as_str());
-                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), &project_name).expect("TODO: panic message");
+                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), &project_name)
+                        .expect("TODO: panic message");
                 }
             }
 
@@ -50,4 +54,6 @@ async fn main() {
         }
         _ => unreachable!(),
     }
+
+    Ok(())
 }

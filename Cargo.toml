@@ -4,6 +4,8 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
 flate2 = "1.1.1"
 reqwest = "0.12.15"
 tar = "0.4.44"
@@ -11,3 +13,4 @@ tokio = { version = "1.0.0", features = ["rt", "rt-multi-thread", "macros"] }
 clap = "4.5.36"
 regex = "1.11.1"
 walkdir = "2.5.0"
+anyhow = "1.0.97"

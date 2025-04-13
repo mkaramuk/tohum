@@ -1,1 +1,3 @@
 /target
+templates/*
+!templates/*.tar.gz

@@ -1,8 +1,7 @@
+mod functions;
+use  std::path::{Path};
 use crate::functions::get_template_from_repo::get_template_from_repo;
-mod functions {
-    pub mod get_template_from_repo;
-}
-
+use crate::functions::replace_vars::replace_placeholders_in_dir;
 use clap::{Arg, ArgAction, Command};
 
 #[tokio::main]
@@ -41,7 +40,10 @@ async fn main() {
                 Err(err) => {
                     eprintln!("Error: {}", err)
                 }
-                Ok(_) => {}
+                Ok(_) => {
+                    let target_dir = Path::new(project_name.as_str());
+                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), &project_name).expect("TODO: panic message");
+                }
             }
 
             // TODO: Implement rest of the init command

@@ -9,3 +9,5 @@ reqwest = "0.12.15"
 tar = "0.4.44"
 tokio = { version = "1.0.0", features = ["rt", "rt-multi-thread", "macros"] }
 clap = "4.5.36"
+regex = "1.11.1"
+walkdir = "2.5.0"

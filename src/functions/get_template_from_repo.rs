@@ -49,7 +49,6 @@ pub async fn get_template_from_repo(
 
         entry.unpack(&dest_path)?;
     }
-
     println!("✅ Template unpacked into: {:?}", target_dir);
     Ok(())
 }

@@ -27,7 +27,16 @@ async fn main() -> Result<()> {
                 )
                 .arg(Arg::new("project-name").action(ArgAction::Set).help(
                     "Name of the project. Uses name of the template by default if it is not given",
-                )),
+                ))
+                .arg(
+                    Arg::new("target-path")
+                        .short('p') // Short flag for the argument
+                        .long("target-path") // Long flag for the argument
+                        .num_args(1) // Specifies that the argument takes one value
+                        .action(ArgAction::Set) // Sets the value of the argument
+                        .help("Target path of the project. If not given, uses current directory.") // Help message for the argument
+                        .visible_alias("target-path"), // Alias to make the argument more discoverable
+                ),
         )
         .get_matches();
 
@@ -39,12 +48,23 @@ async fn main() -> Result<()> {
                 None => template_id.replace("@", "-"),
             };
 
-            match get_template_from_repo(template_id, Some(project_name.as_str())).await {
+            let target_path = match matches.get_one::<String>("target-path") {
+                Some(path) => path.to_string(), // Use the provided target path
+                None => std::env::current_dir() // If not provided, use the current directory
+                    .unwrap() // Handle potential errors when getting the current directory
+                    .join(project_name.clone()) // Append the project name to the current directory
+                    .to_str() // Convert the resulting path to a string
+                    .unwrap() // Handle potential errors when converting to a string
+                    .to_string(), // Convert the string slice to an owned string
+            };
+
+            match get_template_from_repo(template_id, Some(target_path.as_str())).await {
                 Err(err) => {
                     eprintln!("Error: {}", err)
                 }
                 Ok(_) => {
-                    let target_dir = Path::new(project_name.as_str());
+                    let target_dir = Path::new(&target_path);
+
                     let data = metadata::parse_metadata_from_file(&format!(
                         "{}/{}",
                         target_dir.to_str().unwrap(),

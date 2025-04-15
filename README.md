@@ -37,3 +37,9 @@ maker init go@cli my-super-duper-project
 ```
 
 Ta-da! Now you have the project that ready to code!
+
+For a custom path, you can use the `-p` or `--path` option:
+
+```shell
+maker init go@cli my-super-duper-project -p /path/to/your/project
+```

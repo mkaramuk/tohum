@@ -36,7 +36,6 @@ fn test_cli_with_project_name_and_target_path() {
         .unwrap()
         .arg("init")
         .arg("go@cli")
-        .arg("--project-name")
         .arg(project_name)
         .arg("-p")
         .arg(target_path.to_str().unwrap())
@@ -84,7 +83,7 @@ fn test_cli_help_output() {
         .arg("--help")
         .assert()
         .success() // Assert that the command runs successfully
-        .stdout(predicates::str::contains("project provisioning tool")); // Verify help output contains expected text
+        .stdout(predicates::str::contains("Project provisioning tool")); // Verify help output contains expected text
 }
 
 #[test]

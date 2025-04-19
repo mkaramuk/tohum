@@ -4,7 +4,7 @@ mod metadata;
 mod template;
 
 use functions::replace_vars::replace_placeholders_in_dir;
-use std::{collections::HashMap, path::Path};
+use std::{collections::HashMap, fs, path::Path};
 use template::{extract_template, fetch_template};
 
 use anyhow::{Error, Result};
@@ -91,7 +91,7 @@ async fn main() -> Result<(), Error> {
             // Apply template engine (aka replace variables from the template files)
             replace_placeholders_in_dir(target_path.to_str().unwrap(), variables)?;
 
-            // TODO: delete metadata.json
+            fs::remove_file(target_path.join("metadata.json"))?;
 
             println!(
                 "Project {} successfully initialized at {}",

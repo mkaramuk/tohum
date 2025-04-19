@@ -67,6 +67,8 @@ async fn main() -> Result<(), Error> {
             let template_file_path = fetch_template(template_id).await?;
             let metadata = extract_template(&template_file_path, &target_path).await?;
 
+            variables.insert("author", metadata.author.name);
+
             // Check if all the necessary variables are presented
             for (var_name, info) in &metadata.variables {
                 // If the variable value was given from the CLI flags

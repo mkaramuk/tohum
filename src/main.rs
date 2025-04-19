@@ -50,17 +50,12 @@ async fn main() -> Result<()> {
 
             let target_path = match matches.get_one::<String>("target-path") {
                 Some(path) => path.to_string(), // Use the provided target path
-                None => std::env::current_dir() // If not provided, use the current directory
-                    .unwrap() // Handle potential errors when getting the current directory
-                    .join(project_name.clone()) // Append the project name to the current directory
-                    .to_str() // Convert the resulting path to a string
-                    .unwrap() // Handle potential errors when converting to a string
-                    .to_string(), // Convert the string slice to an owned string
+                None => project_name.clone(), // Use the project_name which points to the current dir
             };
 
             match get_template_from_repo(template_id, Some(target_path.as_str())).await {
                 Err(err) => {
-                    eprintln!("Error: {}", err)
+                    eprintln!("Error: {err}")
                 }
                 Ok(_) => {
                     let target_dir = Path::new(&target_path);

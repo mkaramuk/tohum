@@ -1,3 +1,4 @@
+use anyhow::{Error, Result};
 use flate2::read::GzDecoder;
 use reqwest::Client;
 use std::fs;
@@ -7,11 +8,13 @@ use tar::Archive;
 pub async fn get_template_from_repo(
     template_id: &str,
     folder_name: Option<&str>,
-) -> Result<(), Box<dyn std::error::Error>> {
+) -> Result<(), Error> {
     let template_name: Vec<&str> = template_id.split('@').collect();
 
     if template_name.len() != 2 {
-        return Err("❌ Invalid template identifier format. Use something like 'react@ts'".into());
+        return Err(Error::msg(
+            "❌ Invalid template identifier format. Use something like 'react@ts'",
+        ));
     }
 
     let filename = format!("{}-{}.tar.gz", template_name[0], template_name[1]);
@@ -24,7 +27,10 @@ pub async fn get_template_from_repo(
     let response = client.get(&request_string).send().await?;
 
     if !response.status().is_success() {
-        return Err(format!("❌ Failed to download file: {}", response.status()).into());
+        return Err(Error::msg(format!(
+            "❌ Failed to download file: {}",
+            response.status()
+        )));
     }
 
     let bytes = response.bytes().await?;

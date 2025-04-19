@@ -14,8 +14,8 @@ async fn main() -> Result<(), Error> {
         Some(("init", matches)) => {
             let template_id = matches.get_one::<String>("template-id").unwrap();
             let project_name = match matches.get_one::<String>("project-name") {
-                Some(name) => name.to_string(),
-                None => template_id.replace("@", "-"),
+                Some(name) => name.to_string(),        // Use the given project name
+                None => template_id.replace("@", "-"), // use template identifier as project name
             };
 
             let target_path = match matches.get_one::<String>("target-path") {
@@ -33,15 +33,15 @@ async fn main() -> Result<(), Error> {
 
             match get_template_from_repo(template_id, Some(target_path.to_str().unwrap())).await {
                 Err(err) => {
-                    eprintln!("Error: {err}")
+                    return Err(err);
                 }
                 Ok(_) => {
+                    let mut variables: HashMap<&str, String> = HashMap::new();
                     let data = metadata::parse_metadata_from_file(&format!(
                         "{}/{}",
                         target_path.to_str().unwrap(),
                         "metadata.json"
                     ))?;
-                    let mut variables: HashMap<&str, String> = HashMap::new();
 
                     variables.insert("project_name", project_name.clone());
 

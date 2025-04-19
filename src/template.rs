@@ -54,12 +54,6 @@ pub async fn fetch_template(template_id: &str) -> Result<PathBuf, Error> {
         ))
     })?;
 
-    dbg!(format!(
-        "Template {} extracted at {}",
-        template_id,
-        absolute_path.display()
-    ));
-
     Ok(absolute_path)
 }
 
@@ -103,8 +97,6 @@ pub async fn extract_template(
 /// Returns error if metadata.json is not found.
 pub async fn read_metadata_from_template(template_path: &Path) -> Result<Metadata, Error> {
     let metadata_path = template_path.join("metadata.json");
-
-    dbg!(format!("metadata.json path {}", metadata_path.display()));
 
     if !metadata_path.exists() {
         return Err(Error::msg("\"metadata.json\" not found in the template"));

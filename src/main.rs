@@ -5,10 +5,10 @@ use functions::get_template_from_repo::get_template_from_repo;
 use functions::replace_vars::replace_placeholders_in_dir;
 use std::{collections::HashMap, path::Path};
 
-use anyhow::Result;
+use anyhow::{Error, Result};
 
 #[tokio::main]
-async fn main() -> Result<()> {
+async fn main() -> Result<(), Error> {
     let command = cmd::build_cmd().get_matches();
     match command.subcommand() {
         Some(("init", matches)) => {
@@ -22,17 +22,23 @@ async fn main() -> Result<()> {
                 Some(path) => path.to_string(), // Use the provided target path
                 None => project_name.clone(), // Use the project_name which points to the current dir
             };
+            let target_path = Path::new(&target_path);
 
-            match get_template_from_repo(template_id, Some(target_path.as_str())).await {
+            if target_path.exists() {
+                return Err(Error::msg(format!(
+                    "target directory ({}) is already exist",
+                    target_path.to_str().unwrap()
+                )));
+            }
+
+            match get_template_from_repo(template_id, Some(target_path.to_str().unwrap())).await {
                 Err(err) => {
                     eprintln!("Error: {err}")
                 }
                 Ok(_) => {
-                    let target_dir = Path::new(&target_path);
-
                     let data = metadata::parse_metadata_from_file(&format!(
                         "{}/{}",
-                        target_dir.to_str().unwrap(),
+                        target_path.to_str().unwrap(),
                         "metadata.json"
                     ))?;
                     let mut variables: HashMap<&str, String> = HashMap::new();
@@ -44,7 +50,7 @@ async fn main() -> Result<()> {
                         variables.insert(var_name, String::from(value.default.to_string()));
                     }
 
-                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), variables)?;
+                    replace_placeholders_in_dir(target_path.to_str().unwrap(), variables)?;
                 }
             }
 

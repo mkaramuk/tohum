@@ -1,76 +1,47 @@
+mod cmd;
 mod functions;
-use crate::functions::get_template_from_repo::get_template_from_repo;
-use crate::functions::replace_vars::replace_placeholders_in_dir;
-use std::{collections::HashMap, path::Path};
 mod metadata;
+use functions::get_template_from_repo::get_template_from_repo;
+use functions::replace_vars::replace_placeholders_in_dir;
+use std::{collections::HashMap, path::Path};
 
-use anyhow::Result;
-use clap::{Arg, ArgAction, Command};
+use anyhow::{Error, Result};
 
 #[tokio::main]
-async fn main() -> Result<()> {
-    let command = Command::new("maker")
-        .about("project provisioning tool")
-        .version("0.1.0")
-        .subcommand_required(true)
-        .arg_required_else_help(true)
-        .subcommand(
-            Command::new("init")
-                .alias("create")
-                .about("Provisions a new project from a template definition")
-                .arg(
-                    Arg::new("template-id")
-                        .num_args(1)
-                        .required(true)
-                        .action(ArgAction::Set)
-                        .help("Template identifier. Should be in 'name@group' format"),
-                )
-                .arg(Arg::new("project-name").action(ArgAction::Set).help(
-                    "Name of the project. Uses name of the template by default if it is not given",
-                ))
-                .arg(
-                    Arg::new("target-path")
-                        .short('p') // Short flag for the argument
-                        .long("target-path") // Long flag for the argument
-                        .num_args(1) // Specifies that the argument takes one value
-                        .action(ArgAction::Set) // Sets the value of the argument
-                        .help("Target path of the project. If not given, uses current directory.") // Help message for the argument
-                        .visible_alias("target-path"), // Alias to make the argument more discoverable
-                ),
-        )
-        .get_matches();
-
+async fn main() -> Result<(), Error> {
+    let command = cmd::build_cmd().get_matches();
     match command.subcommand() {
         Some(("init", matches)) => {
             let template_id = matches.get_one::<String>("template-id").unwrap();
             let project_name = match matches.get_one::<String>("project-name") {
-                Some(name) => name.to_string(),
-                None => template_id.replace("@", "-"),
+                Some(name) => name.to_string(),        // Use the given project name
+                None => template_id.replace("@", "-"), // use template identifier as project name
             };
 
             let target_path = match matches.get_one::<String>("target-path") {
                 Some(path) => path.to_string(), // Use the provided target path
-                None => std::env::current_dir() // If not provided, use the current directory
-                    .unwrap() // Handle potential errors when getting the current directory
-                    .join(project_name.clone()) // Append the project name to the current directory
-                    .to_str() // Convert the resulting path to a string
-                    .unwrap() // Handle potential errors when converting to a string
-                    .to_string(), // Convert the string slice to an owned string
+                None => project_name.clone(), // Use the project_name which points to the current dir
             };
+            let target_path = Path::new(&target_path);
 
-            match get_template_from_repo(template_id, Some(target_path.as_str())).await {
+            if target_path.exists() {
+                return Err(Error::msg(format!(
+                    "target directory ({}) is already exist",
+                    target_path.to_str().unwrap()
+                )));
+            }
+
+            match get_template_from_repo(template_id, Some(target_path.to_str().unwrap())).await {
                 Err(err) => {
-                    eprintln!("Error: {}", err)
+                    return Err(err);
                 }
                 Ok(_) => {
-                    let target_dir = Path::new(&target_path);
-
+                    let mut variables: HashMap<&str, String> = HashMap::new();
                     let data = metadata::parse_metadata_from_file(&format!(
                         "{}/{}",
-                        target_dir.to_str().unwrap(),
+                        target_path.to_str().unwrap(),
                         "metadata.json"
                     ))?;
-                    let mut variables: HashMap<&str, String> = HashMap::new();
 
                     variables.insert("project_name", project_name.clone());
 
@@ -79,7 +50,7 @@ async fn main() -> Result<()> {
                         variables.insert(var_name, String::from(value.default.to_string()));
                     }
 
-                    replace_placeholders_in_dir(target_dir.to_str().unwrap(), variables)?;
+                    replace_placeholders_in_dir(target_path.to_str().unwrap(), variables)?;
                 }
             }
 

@@ -38,16 +38,15 @@ async fn main() -> Result<(), Error> {
                 // Otherwise check if it is given as a variable
                 None => match variables.get("project_name") {
                     Some(project_name_var) => project_name_var.clone(),
-                    None => {
-                        // Project name is not given, use the template identifier as it
-                        let name = template_id.replace("@", "-");
 
-                        // Add it to the variables so it can be used while replacing the variables
-                        variables.insert("project_name", name.clone());
-                        name
-                    }
+                    // Project name is not given, use the template identifier as it
+                    None => template_id.replace("@", "-"),
                 },
             };
+
+            if !variables.contains_key("project_name") {
+                variables.insert("project_name", project_name.clone());
+            }
 
             let target_path = match matches.get_one::<String>("target-path") {
                 // Use the provided target path

@@ -17,17 +17,26 @@ pub fn build_cmd() -> Command {
                         .action(ArgAction::Set)
                         .help("Template identifier. Should be in 'name@group' format"),
                 )
-                .arg(Arg::new("project-name").action(ArgAction::Set).help(
-                    "Name of the project. Uses name of the template by default if it is not given",
-                ))
+                .arg(
+                    Arg::new("project-name")
+                        .num_args(1)
+                        .action(ArgAction::Set)
+                        .help("Name of the project, uses template identifier by default"),
+                )
+                .arg(
+                    Arg::new("var")
+                        .short('v')
+                        .long("var")
+                        .help("Defines a variable that will be used by the template")
+                        .action(ArgAction::Append),
+                )
                 .arg(
                     Arg::new("target-path")
                         .short('p') // Short flag for the argument
                         .long("target-path") // Long flag for the argument
                         .num_args(1) // Specifies that the argument takes one value
                         .action(ArgAction::Set) // Sets the value of the argument
-                        .help("Target path of the project. If not given, uses current directory.") // Help message for the argument
-                        .visible_alias("target-path"), // Alias to make the argument more discoverable
+                        .help("Target path of the project. If not given, uses current directory."), // Help message for the argument
                 ),
         )
 }

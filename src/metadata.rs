@@ -30,7 +30,7 @@ pub enum CustomVariableType {
 pub struct CustomVariable {
     pub description: String,
     pub r#type: CustomVariableType,
-    pub default: Value,
+    pub default: Option<Value>,
 }
 
 /// Parses metadata struct from the given file

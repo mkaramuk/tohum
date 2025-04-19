@@ -27,6 +27,7 @@ Once you've done with the installation, you can create your first project by usi
 
 | Description                                                  | Identifier |
 | ------------------------------------------------------------ | ---------- |
+| Node.js TypeScript (tsup bundler + eslint)                   | `ts@node`  |
 | Go CLI application                                           | `cli@go`   |
 | Vite React application with Tailwind and Redux support in TS | `react@ts` |
 

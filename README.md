@@ -27,7 +27,7 @@ Once you've done with the installation, you can create your first project by usi
 
 | Description                                                  | Identifier |
 | ------------------------------------------------------------ | ---------- |
-| Go CLI application                                           | `go@cli`   |
+| Go CLI application                                           | `cli@go`   |
 | Vite React application with Tailwind and Redux support in TS | `react@ts` |
 
 Use your desired template in the `init` command:

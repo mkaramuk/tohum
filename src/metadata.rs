@@ -1,7 +1,7 @@
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
-use std::{collections::HashMap, fs};
+use std::{collections::HashMap, fs, path::Path};
 
 /// Struct that represents a metadata.json file
 #[derive(Serialize, Deserialize, Debug)]
@@ -34,15 +34,14 @@ pub struct CustomVariable {
 }
 
 /// Parses metadata struct from the given file
-pub fn parse_metadata_from_file(path: &str) -> Result<Metadata> {
+pub fn parse_metadata_from_file(path: &Path) -> Result<Metadata> {
     let content = fs::read_to_string(path)?;
-    let json: Metadata = serde_json::from_str(&content)?;
 
-    Ok(json)
+    Ok(parse_metadata_from_content(&content)?)
 }
 
 /// Parses metadata struct from the given content
-pub fn parse_metadata(content: &str) -> Result<Metadata> {
+pub fn parse_metadata_from_content(content: &str) -> Result<Metadata> {
     let json: Metadata = serde_json::from_str(content)?;
 
     Ok(json)

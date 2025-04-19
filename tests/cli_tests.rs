@@ -11,7 +11,7 @@ fn test_cli_with_target_path() {
     Command::cargo_bin("maker")
         .unwrap()
         .arg("init")
-        .arg("go@cli")
+        .arg("cli@go")
         .arg("-p")
         .arg(target_path.to_str().unwrap())
         .assert()
@@ -35,7 +35,7 @@ fn test_cli_with_project_name_and_target_path() {
     Command::cargo_bin("maker")
         .unwrap()
         .arg("init")
-        .arg("go@cli")
+        .arg("cli@go")
         .arg(project_name)
         .arg("-p")
         .arg(target_path.to_str().unwrap())
@@ -92,7 +92,7 @@ fn test_cli_with_invalid_template_id_format() {
     Command::cargo_bin("maker")
         .unwrap()
         .arg("init")
-        .arg("go@") // Invalid template ID
+        .arg("cli@") // Invalid template ID
         .assert()
         .failure(); // Assert that the command fails
 }
@@ -106,7 +106,7 @@ fn test_cli_with_valid_template_id() {
     Command::cargo_bin("maker")
         .unwrap()
         .arg("init")
-        .arg("go@cli") // Valid template ID
+        .arg("cli@go") // Valid template ID
         .arg("-p")
         .arg(target_path.to_str().unwrap())
         .assert()

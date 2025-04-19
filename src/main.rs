@@ -1,10 +1,11 @@
 mod cmd;
 mod functions;
 mod metadata;
-use functions::get_template_from_repo::get_template_from_repo;
+mod template;
+
 use functions::replace_vars::replace_placeholders_in_dir;
-use metadata::parse_metadata_from_file;
 use std::{collections::HashMap, path::Path};
+use template::{extract_template, fetch_template};
 
 use anyhow::{Error, Result};
 
@@ -13,78 +14,89 @@ async fn main() -> Result<(), Error> {
     let command = cmd::build_cmd().get_matches();
     match command.subcommand() {
         Some(("init", matches)) => {
+            let mut variables: HashMap<&str, String> = HashMap::new();
+
+            // Parse and add the variables that passed by the user
+            if let Some(defined_vars) = matches.get_many::<String>("var") {
+                for var in defined_vars {
+                    if let Some((key, value)) = var.split_once('=') {
+                        variables.insert(key, value.to_string());
+                    } else {
+                        return Err(Error::msg(format!(
+                            "Invalid variable definition: {} (expected key=value)",
+                            var
+                        )));
+                    }
+                }
+            }
+
             let template_id = matches.get_one::<String>("template-id").unwrap();
             let project_name = match matches.get_one::<String>("project-name") {
-                Some(name) => name.to_string(),        // Use the given project name
-                None => template_id.replace("@", "-"), // use template identifier as project name
+                // Use the given project name if it is given
+                Some(name) => name.to_string(),
+
+                // Otherwise check if it is given as a variable
+                None => match variables.get("project_name") {
+                    Some(project_name_var) => project_name_var.clone(),
+                    None => {
+                        // Project name is not given, use the template identifier as it
+                        let name = template_id.replace("@", "-");
+
+                        // Add it to the variables so it can be used while replacing the variables
+                        variables.insert("project_name", name.clone());
+                        name
+                    }
+                },
             };
 
             let target_path = match matches.get_one::<String>("target-path") {
-                Some(path) => path.to_string(), // Use the provided target path
-                None => project_name.clone(), // Use the project_name which points to the current dir
-            };
-            let target_path = Path::new(&target_path);
+                // Use the provided target path
+                Some(path) => Path::new(path),
 
+                // Use the project_name which points to the current dir
+                None => Path::new(&project_name),
+            };
+
+            // NOTE: Maybe we can implement a workflow where we ask user to whether delete that existing directory.
             if target_path.exists() {
                 return Err(Error::msg(format!(
                     "target directory ({}) is already exist",
-                    target_path.to_str().unwrap()
+                    target_path.display()
                 )));
             }
 
-            match get_template_from_repo(template_id, Some(target_path.to_str().unwrap())).await {
-                Err(err) => {
-                    return Err(err);
+            let template_file_path = fetch_template(template_id).await?;
+            let metadata = extract_template(&template_file_path, &target_path).await?;
+
+            // Check if all the necessary variables are presented
+            for (var_name, info) in &metadata.variables {
+                // If the variable value was given from the CLI flags
+                // it is already presented in the variables list.
+                if variables.contains_key(var_name.as_str()) {
+                    continue;
                 }
-                Ok(_) => {
-                    let mut variables: HashMap<&str, String> = HashMap::new();
-                    let metadata = parse_metadata_from_file(&format!(
-                        "{}/{}",
-                        target_path.to_str().unwrap(),
-                        "metadata.json"
-                    ))?;
 
-                    // Add default variables
-                    variables.insert("project_name", project_name.clone());
-
-                    // Parse and add the variables that passed by the user
-                    if let Some(defined_vars) = matches.get_many::<String>("var") {
-                        for var in defined_vars {
-                            if let Some((key, value)) = var.split_once('=') {
-                                variables.insert(key, value.to_string());
-                            } else {
-                                return Err(Error::msg(format!(
-                                    "Invalid variable definition: {} (expected key=value)",
-                                    var
-                                )));
-                            }
-                        }
+                // Find the default value of the variable
+                let value = match &info.default {
+                    Some(default_value) => default_value.as_str().unwrap().to_string(),
+                    None => {
+                        return Err(Error::msg(format!("Missing variable \"{}\"", var_name)));
                     }
+                };
 
-                    // Check if all the necessary variables are presented
-                    for (var_name, info) in &metadata.variables {
-                        // Variable value is given from the command line flags
-                        if variables.contains_key(var_name.as_str()) {
-                            continue;
-                        }
-
-                        // Find the default value of the variable
-                        let value = match &info.default {
-                            Some(default_value) => default_value.to_string(),
-                            None => {
-                                return Err(Error::msg(format!(
-                                    "Missing variable \"{}\"",
-                                    var_name
-                                )));
-                            }
-                        };
-
-                        variables.insert(var_name, value);
-                    }
-
-                    replace_placeholders_in_dir(target_path.to_str().unwrap(), variables)?;
-                }
+                variables.insert(var_name, value);
             }
+
+            // Apply template engine (aka replace variables from the template files)
+            replace_placeholders_in_dir(target_path.to_str().unwrap(), variables)?;
+
+            // TODO: delete metadata.json
+
+            println!(
+                "Project {} successfully initialized at {}",
+                project_name,
+                target_path.display()
+            );
         }
         _ => unreachable!(),
     }

@@ -6,7 +6,6 @@ description = "CLI tool to initialize new projects from pre-written templates"
 categories = ["command-line-utilities"]
 keywords = ["cli", "tool", "template", "project", "management"]
 license = "MIT"
-license-file = "LICENSE"
 readme = "README.md"
 homepage = "https://github.com/mkaramuk/maker"
 repository = "https://github.com/mkaramuk/maker"

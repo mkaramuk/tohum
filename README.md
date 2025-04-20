@@ -9,7 +9,7 @@ First you need to install maker. You can do it either installing it from cargo r
 Install from cargo registry:
 
 ```shell
-# Not available yet :-)
+# WIP
 ```
 
 Build and install from source:

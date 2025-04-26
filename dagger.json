@@ -1,0 +1,6 @@
+{
+  "name": "pipeline",
+  "engineVersion": "v0.18.3",
+  "source": "dagger",
+  "sdk": "typescript"
+}

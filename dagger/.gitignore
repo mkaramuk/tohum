@@ -1,0 +1,7 @@
+/dagger.gen.go
+/internal/dagger
+/internal/querybuilder
+/internal/telemetry
+/sdk
+/**/node_modules/**
+/**/.pnpm-store/**

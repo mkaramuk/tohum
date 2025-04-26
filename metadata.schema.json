@@ -1,5 +1,5 @@
 {
-  "$id": "https://raw.githubusercontent.com/mkaramuk/maker/main/metadata.schema.json",
+  "$id": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "Metadata",
   "type": "object",

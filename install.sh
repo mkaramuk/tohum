@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cp target/release/maker /usr/local/bin/maker
+cp target/release/tohum /usr/local/bin/tohum

@@ -767,25 +767,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13dc2df351e3202783a1fe0d44375f7295ffb4049267b0f3018346dc122a1d94"
 
 [[package]]
-name = "maker"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "assert_cmd",
- "clap",
- "flate2",
- "predicates",
- "regex",
- "reqwest",
- "serde",
- "serde_json",
- "tar",
- "tempfile",
- "tokio",
- "walkdir",
-]
-
-[[package]]
 name = "memchr"
 version = "2.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1376,6 +1357,25 @@ checksum = "9117f5d4db391c1cf6927e7bea3db74b9a1c1add8f7eda9ffd5364f40f57b82f"
 dependencies = [
  "displaydoc",
  "zerovec",
+]
+
+[[package]]
+name = "tohum"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "assert_cmd",
+ "clap",
+ "flate2",
+ "predicates",
+ "regex",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "tar",
+ "tempfile",
+ "tokio",
+ "walkdir",
 ]
 
 [[package]]

@@ -27,7 +27,7 @@ pub async fn fetch_template(template_id: &str) -> Result<PathBuf, Error> {
 
     let client = Client::new();
     let request_string = format!(
-        "https://raw.githubusercontent.com/mkaramuk/maker/main/templates/{}",
+        "https://raw.githubusercontent.com/mkaramuk/tohum/main/templates/{}",
         file_name
     );
     let response = client

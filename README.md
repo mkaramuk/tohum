@@ -1,10 +1,10 @@
-# maker
+# tohum
 
-maker is a simple CLI tool that you can use to provision your new projects from the template that you've chosen. You can also create your own project templates to extend the functionality.
+"tohum" (which means "seed" in Turkish) is a CLI tool that you can use to initialize your new projects from a pre-written template that you've chosen. You can also implement your own project templates to extend the functionality.
 
 ## Quickstart
 
-First you need to install maker. You can do it either installing it from cargo registry or build your own.
+First you need to install tohum. You can do it either installing it from cargo registry or build your own.
 
 Install from cargo registry:
 
@@ -15,8 +15,8 @@ Install from cargo registry:
 Build and install from source:
 
 ```shell
-git clone https://github.com/mkaramuk/maker.git
-cd maker
+git clone https://github.com/mkaramuk/tohum.git
+cd tohum
 cargo build --release
 sudo ./install.sh
 ```
@@ -34,7 +34,7 @@ Once you've done with the installation, you can create your first project by usi
 Use your desired template in the `init` command:
 
 ```shell
-maker init go@cli my-super-duper-project
+tohum init cli@go my-super-duper-project
 ```
 
 Ta-da! Now you have the project that ready to code!
@@ -42,5 +42,5 @@ Ta-da! Now you have the project that ready to code!
 For a custom path, you can use the `-p` or `--path` option:
 
 ```shell
-maker init go@cli my-super-duper-project -p /path/to/your/project
+tohum init cli@go my-super-duper-project -p /path/to/your/project
 ```

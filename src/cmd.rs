@@ -1,7 +1,7 @@
 use clap::{Arg, ArgAction, Command};
 
 pub fn build_cmd() -> Command {
-    Command::new("maker")
+    Command::new("tohum")
         .about("Project provisioning tool")
         .version("0.1.0")
         .subcommand_required(true)

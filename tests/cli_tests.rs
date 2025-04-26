@@ -8,7 +8,7 @@ fn test_cli_with_target_path() {
     let target_path = temp_dir.path().join("test_project"); // Define the target path
 
     // Run the CLI command with the `-p` flag
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("cli@go")
@@ -32,7 +32,7 @@ fn test_cli_with_project_name_and_target_path() {
     let project_name = "custom_project";
 
     // Run the CLI command with both `--project-name` and `-p` flags
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("cli@go")
@@ -56,7 +56,7 @@ fn test_cli_with_missing_template_id() {
     let target_path = temp_dir.path().join("test_project"); // Define the target path
 
     // Run the CLI command without providing the required `--template-id`
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("-p")
@@ -68,7 +68,7 @@ fn test_cli_with_missing_template_id() {
 #[test]
 fn test_cli_with_invalid_command() {
     // Run the CLI command with an invalid subcommand
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("invalid_command")
         .assert()
@@ -78,7 +78,7 @@ fn test_cli_with_invalid_command() {
 #[test]
 fn test_cli_help_output() {
     // Run the CLI command with the `--help` flag
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("--help")
         .assert()
@@ -89,7 +89,7 @@ fn test_cli_help_output() {
 #[test]
 fn test_cli_with_invalid_template_id_format() {
     // Run the CLI command with an invalid template ID format
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("cli@") // Invalid template ID
@@ -103,7 +103,7 @@ fn test_cli_with_valid_template_id() {
     let target_path = temp_dir.path().join("test_project"); // Define the target path
 
     // Run the CLI command with a valid template ID
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("cli@go") // Valid template ID
@@ -123,7 +123,7 @@ fn test_cli_with_valid_template_id() {
 #[test]
 fn test_cli_with_missing_template_id_and_target_path() {
     // Run the CLI command with missing template ID and `-p` flag
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("-p") // Missing template ID
@@ -134,7 +134,7 @@ fn test_cli_with_missing_template_id_and_target_path() {
 #[test]
 fn test_cli_with_missing_template_id_and_invalid_target_path() {
     // Run the CLI command with missing template ID and invalid `-p` value
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("-p")
@@ -149,7 +149,7 @@ fn test_cli_with_invalid_template_id_and_target_path() {
     let target_path = temp_dir.path().join("test_project"); // Define the target path
 
     // Run the CLI command with an invalid template ID and valid `-p` flag
-    Command::cargo_bin("maker")
+    Command::cargo_bin("tohum")
         .unwrap()
         .arg("init")
         .arg("go") // Invalid template ID

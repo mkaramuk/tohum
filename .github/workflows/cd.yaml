@@ -1,0 +1,28 @@
+name: continuous deployment
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build-publish:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      actions: read
+      contents: write
+    steps:
+      - name: checkout the repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: initialize Dagger
+        uses: dagger/dagger-for-github@8.0.0
+        with:
+          version: "latest"
+      - name: start Dagger
+        run: . . | release-github env://GH_TOKEN mkaramuk tohum
+        shell: dagger {0}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

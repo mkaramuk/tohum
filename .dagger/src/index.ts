@@ -142,7 +142,12 @@ export class Pipeline {
       .withNewFile(`${WORK_DIR}/Cargo.toml`, TOML.stringify(cargoToml))
 
       // Clear changelogs and commit release
-      .withExec(["rm", "-rf", "dagger/changelogs/*.md"])
+      .withExec([
+        "sh",
+        "-c",
+        `rm -rf ${join(WORK_DIR, ".dagger", "changelogs", "*.md")}`,
+      ])
+      .withExec(["ls", "-la", ".dagger/changelogs"])
       .withExec([
         "git",
         "config",

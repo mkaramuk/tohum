@@ -4,6 +4,9 @@
     "moduleResolution": "Node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
     "paths": {
       "@dagger.io/dagger": ["./sdk/src"],
       "@dagger.io/dagger/telemetry": ["./sdk/src/telemetry"]

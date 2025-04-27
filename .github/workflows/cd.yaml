@@ -33,7 +33,7 @@ jobs:
         with:
           version: "latest"
       - name: start Dagger
-        run: . . | release-github env://GH_TOKEN ${{ needs.extract-repo-info.outputs.repo }} ${{ needs.extract-repo-info.outputs.owner }}
+        run: . . | release-github env://GH_TOKEN ${{ needs.extract-repo-info.outputs.owner }} ${{ needs.extract-repo-info.outputs.repo }}
         shell: dagger {0}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -4,6 +4,10 @@
   "title": "Metadata",
   "type": "object",
   "properties": {
+    "description": {
+      "type": "string",
+      "description": "Description of the template"
+    },
     "version": {
       "type": "string",
       "enum": ["1.0"],

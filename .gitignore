@@ -3,3 +3,6 @@ templates/*
 !templates/*.tar.gz
 .idea/
 .vscode/
+
+# Nix output directory sym link
+result

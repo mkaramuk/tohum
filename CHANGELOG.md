@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2](https://github.com/mkaramuk/tohum/compare/v0.0.1...v0.0.2) - 2025-07-12
+
+### Other
+
+- *(cd)* rename the GitHub action
+- add Nix flake
+
 ## [0.0.1](https://github.com/mkaramuk/tohum/releases/tag/v0.0.1) - 2025-05-25
 
 ### Added

@@ -2,6 +2,8 @@
 
 "tohum" (which means "seed" in Turkish) is a CLI tool that you can use to initialize your new projects from a pre-written template that you've chosen. You can also implement your own project templates to extend the functionality.
 
+> tohum is under development. Expect breaking changes
+
 ## Quickstart
 
 First you need to install tohum. You can do it either installing it from cargo registry or build your own.

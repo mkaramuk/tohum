@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/maker/main/metadata.schema.json",
+  "version": "1.0",
+  "name": "cli",
+  "group": "go",
+  "author": {
+    "name": "Muhammed Karamuk",
+    "url": "https://mkaramuk.dev"
+  },
+  "variables": {
+    "go_version": {
+      "description": "The compiler version that is going to be used in .mod file",
+      "type": "string",
+      "default": "1.23.7"
+    }
+  }
+}

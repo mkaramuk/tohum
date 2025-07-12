@@ -1,0 +1,24 @@
+{
+  "node": {
+    "ts": [
+      {
+        "version": "1.0",
+        "desciption": "Node.js project TypeScript included. This template uses tsup as the bundler."
+      }
+    ],
+    "react": [
+      {
+        "version": "1.0",
+        "description": "React project with TypeScript and Vite setup. This template uses tsup as the bundler."
+      }
+    ]
+  },
+  "go": {
+    "cli": [
+      {
+        "version": "1.0",
+        "description": "Go CLI application template with basic setup."
+      }
+    ]
+  }
+}

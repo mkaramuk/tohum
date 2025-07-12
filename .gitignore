@@ -1,6 +1,4 @@
 /target
-templates/*
-!templates/*.tar.gz
 .idea/
 .vscode/
 

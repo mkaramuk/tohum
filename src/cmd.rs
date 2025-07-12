@@ -3,7 +3,7 @@ use clap::{Arg, ArgAction, Command};
 pub fn build_cmd() -> Command {
     Command::new("tohum")
         .about("Project provisioning tool")
-        .version("0.1.0")
+        .version(env!("CARGO_PKG_VERSION"))
         .subcommand_required(true)
         .arg_required_else_help(true)
         .subcommand(

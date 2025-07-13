@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3](https://github.com/mkaramuk/tohum/compare/v0.0.2...v0.0.3) - 2025-07-13
+
+### Added
+
+- implement new approach
+- change the metadata.json location in the templates
+- *(metadata)* change author field type
+- add tags for metadata
+- *(metadata)* property for template description
+
+### Fixed
+
+- *(store)* refactor store.json structure
+- use semver format for template version
+- *(flake)* define rust-src path in dev shell
+- use version from Cargo.toml
+
+### Other
+
+- mention the project is under development
+
 ## [0.0.2](https://github.com/mkaramuk/tohum/compare/v0.0.1...v0.0.2) - 2025-07-12
 
 ### Other

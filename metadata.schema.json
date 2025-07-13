@@ -10,7 +10,7 @@
     },
     "version": {
       "type": "string",
-      "description": "Template version"
+      "description": "Template version. Must be in semver format"
     },
     "name": {
       "type": "string",

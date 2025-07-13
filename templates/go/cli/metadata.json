@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/mkaramuk/maker/main/metadata.schema.json",
-  "version": "1.0",
+  "version": "1.0.0",
   "name": "cli",
   "group": "go",
   "authors": [

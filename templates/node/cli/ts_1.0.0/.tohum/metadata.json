@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/mkaramuk/maker/main/metadata.schema.json",
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "version": "1.0.0",
   "name": "ts",
   "description": "Node.js project TypeScript included. This template uses tsup as the bundler.",

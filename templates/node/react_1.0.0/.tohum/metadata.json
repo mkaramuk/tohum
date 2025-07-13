@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "version": "1.0.0",
   "name": "react",
   "authors": [

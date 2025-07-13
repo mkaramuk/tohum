@@ -1,17 +1,12 @@
 {
   "node": {
     "cli": {
-      "js": {
-        "description": "Node.js CLI application template with basic setup.",
-        "versions": ["1.0.0"]
-      },
       "ts": {
-        "description": "Node.js project TypeScript included. This template uses tsup as the bundler.",
+        "description": "Node.js project that configured for TypeScript. This template uses \"tsup\" as the bundler.",
         "versions": ["1.0.0"]
       }
     },
     "react": {
-      "description": "React project with TypeScript and Vite setup. This template uses tsup as the bundler.",
       "versions": ["1.0.0"]
     }
   },

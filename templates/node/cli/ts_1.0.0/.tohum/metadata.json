@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "version": "1.0.0",
   "name": "ts",
-  "description": "Node.js project TypeScript included. This template uses tsup as the bundler.",
+  "description": "Node.js project that configured for TypeScript. This template uses \"tsup\" as the bundler.",
   "authors": [
     {
       "name": "Muhammed Karamuk",

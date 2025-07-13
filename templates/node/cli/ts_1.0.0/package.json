@@ -1,0 +1,27 @@
+{
+  "name": "{{ project_name }}",
+  "version": "{{ version }}",
+  "description": "{{ description }}",
+  "license": "{{ license }}",
+  "author": "{{ author }}",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "lint": "tsc && eslint",
+    "dev": "tsup --sourcemap --silent --onSuccess 'tsc-alias -p tsconfig.json -f && node dist/index.js'",
+    "watch": "tsup --silent --watch --onSuccess 'tsc-alias -p tsconfig.json -f && node dist/index.js'",
+    "start": "node dist/index.js",
+    "build": "tsup --onSuccess 'tsc-alias -p tsconfig.json -f'",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.25.0",
+    "@types/node": "^22.14.1",
+    "eslint": "^9.25.0",
+    "tsc-alias": "^1.8.15",
+    "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.30.1"
+  }
+}

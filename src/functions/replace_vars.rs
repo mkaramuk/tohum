@@ -5,7 +5,7 @@ use walkdir::WalkDir;
 
 pub fn replace_placeholders_in_dir(
     target_dir: &str,
-    variables: HashMap<&str, String>,
+    variables: HashMap<String, String>,
 ) -> Result<()> {
     for entry in WalkDir::new(target_dir).into_iter().filter_map(Result::ok) {
         let path = entry.path();

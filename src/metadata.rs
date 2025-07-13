@@ -5,44 +5,43 @@ use std::{collections::HashMap, fs, path::Path};
 
 /// Struct that represents a metadata.json file
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Metadata {
+pub struct TemplateMetadata {
     pub version: String,
     pub name: String,
-    pub group: String,
-    pub author: Author,
-    pub variables: HashMap<String, CustomVariable>,
+    pub authors: Vec<TemplateAuthor>,
+    pub variables: Option<HashMap<String, TemplateCustomVariable>>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct Author {
+pub struct TemplateAuthor {
     pub name: String,
     pub url: Option<String>,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 #[serde(rename_all = "lowercase")]
-pub enum CustomVariableType {
+pub enum TemplateCustomVariableType {
     Number,
     String,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct CustomVariable {
+pub struct TemplateCustomVariable {
     pub description: String,
-    pub r#type: CustomVariableType,
+    pub r#type: TemplateCustomVariableType,
     pub default: Option<Value>,
 }
 
 /// Parses metadata struct from the given file
-pub fn parse_metadata_from_file(path: &Path) -> Result<Metadata> {
+pub fn parse_metadata_from_file(path: &Path) -> Result<TemplateMetadata> {
     let content = fs::read_to_string(path)?;
 
     Ok(parse_metadata_from_content(&content)?)
 }
 
-/// Parses metadata struct from the given content
-pub fn parse_metadata_from_content(content: &str) -> Result<Metadata> {
-    let json: Metadata = serde_json::from_str(content)?;
+/// Parses metadata struct from the given string
+pub fn parse_metadata_from_content(content: &str) -> Result<TemplateMetadata> {
+    let json: TemplateMetadata = serde_json::from_str(content)?;
 
     Ok(json)
 }

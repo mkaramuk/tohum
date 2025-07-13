@@ -4,30 +4,39 @@
   "title": "Metadata",
   "type": "object",
   "properties": {
+    "description": {
+      "type": "string",
+      "description": "Description of the template"
+    },
     "version": {
       "type": "string",
-      "enum": ["1.0"],
-      "description": "Version of the metadata"
+      "description": "Template version. Must be in semver format"
     },
     "name": {
       "type": "string",
       "description": "Name of template"
     },
-    "group": {
-      "type": "string",
-      "description": "The group that this template belongs to"
+    "tags": {
+      "type": "array",
+      "description": "Tags for the template",
+      "items": {
+        "type": "string"
+      }
     },
-    "author": {
-      "type": "object",
-      "description": "Author details",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the author"
-        },
-        "url": {
-          "type": "string",
-          "description": "URL of the author"
+    "authors": {
+      "type": "array",
+      "description": "List of authors of the template",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the author"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the author"
+          }
         }
       },
       "required": ["name"]
@@ -74,5 +83,5 @@
       }
     }
   },
-  "required": ["version", "name", "group", "author"]
+  "required": ["version", "name", "author"]
 }

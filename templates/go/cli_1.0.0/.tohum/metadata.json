@@ -1,0 +1,19 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
+  "version": "1.0.0",
+  "name": "cli",
+  "description": "Go CLI application template with basic setup.",
+  "authors": [
+    {
+      "name": "Muhammed Karamuk",
+      "url": "https://mkaramuk.dev"
+    }
+  ],
+  "variables": {
+    "go_version": {
+      "description": "The compiler version that is going to be used in .mod file",
+      "type": "string",
+      "default": "1.23.7"
+    }
+  }
+}

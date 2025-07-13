@@ -1,102 +1,58 @@
-use std::{
-    fs::{self, File},
-    io::Write,
-    path::{Path, PathBuf},
+use crate::{
+    git::fetch_github_directory,
+    metadata::{TemplateMetadata, parse_metadata_from_file},
 };
-
 use anyhow::{Error, Result};
-use flate2::read::GzDecoder;
-use reqwest::Client;
-use tar::Archive;
-use tempfile::env::temp_dir;
+use std::path::{Path, PathBuf};
 
-use crate::metadata::{Metadata, parse_metadata_from_file};
+// Default Store information
+const DEFAULT_STORE_REPO_URL: &str = "https://github.com/mkaramuk/tohum";
+const DEFAULT_STORE_REPO_BRANCH: &str = "main";
+const DEFAULT_TEMPLATES_DIR_PATH: &str = "templates";
 
-/// Fetches the given `.tar.gz` template file to the system's
-/// temp directory. Returns the absolute path of the downloaded file.
-pub async fn fetch_template(template_id: &str) -> Result<PathBuf, Error> {
-    // Parse template name and group
-    let [template_name, template_group]: [&str; 2] = template_id
-        .split('@')
-        .collect::<Vec<_>>()
-        .try_into()
-        .map_err(|_| Error::msg("Invalid template identifier. Expected format: 'name@group'"))?;
+/// Downloads the given template from the given store and saves it
+/// to the given output path.
+pub fn fetch_template_from_store(
+    store_repo_url: &str,
+    store_repo_branch: &str,
+    store_templates_dir_path: &str,
+    template_path: &str,
+    template_version: &str,
+    output_path: &Path,
+) -> Result<PathBuf, Error> {
+    let folder_name = format!("{}_{}", template_path, template_version);
+    let full_path = format!("{}/{}", store_templates_dir_path, folder_name);
+    let output_dir = fetch_github_directory(
+        store_repo_url,
+        store_repo_branch,
+        full_path.as_str(),
+        output_path,
+    )?;
 
-    let file_name = format!("{}-{}.tar.gz", template_name, template_group);
-    let absolute_path = temp_dir().join(&file_name);
-
-    let client = Client::new();
-    let request_string = format!(
-        "https://raw.githubusercontent.com/mkaramuk/tohum/main/templates/{}",
-        file_name
-    );
-    let response = client
-        .get(&request_string)
-        .send()
-        .await
-        .map_err(|e| Error::msg(format!("Failed to download {e}")))?;
-
-    if !response.status().is_success() {
-        return Err(Error::msg(format!(
-            "Failed to download file: {}",
-            response.status(),
-        )));
-    }
-
-    let bytes = response.bytes().await?;
-    let mut file = File::create(&absolute_path)
-        .map_err(|e| Error::msg(format!("Failed to create file at {:?}: {e}", absolute_path)))?;
-
-    file.write_all(&bytes).map_err(|e| {
-        Error::msg(format!(
-            "Failed to write to file at {:?}: {e}",
-            absolute_path
-        ))
-    })?;
-
-    Ok(absolute_path)
+    Ok(output_dir)
 }
 
-/// Extracts the given `.tar.gz` template file into the `extract_path`
-/// and returns a Metadata object that includes information about the
-/// template. Returns error if the metadata.json is not available.
-pub async fn extract_template(
-    template_file_path: &Path,
-    extract_path: &Path,
-) -> Result<Metadata, Error> {
-    let file = File::open(template_file_path)
-        .map_err(|e| Error::msg(format!("Error while opening the template file: {e}")))?;
-
-    let tar_gz = GzDecoder::new(file);
-    let mut archive = Archive::new(tar_gz);
-
-    for entry in archive.entries()? {
-        let mut entry = entry?;
-        let path = entry.path()?.clone();
-        let extracted_entry_path = extract_path.join(&path);
-
-        // Create the parent directory of the entry
-        if let Some(parent) = extracted_entry_path.parent() {
-            fs::create_dir_all(parent)?;
-        }
-
-        // Unpack the entry into the target path
-        entry.unpack(&extracted_entry_path)?;
-    }
-
-    match read_metadata_from_template(&extract_path).await {
-        Err(e) => {
-            fs::remove_dir_all(&extract_path)?;
-            return Err(e);
-        }
-        Ok(metadata) => return Ok(metadata),
-    }
+/// Same as `fetch_from_store` but uses the official (default) Store as the source.
+pub fn fetch_template_from_default_store(
+    path: &str,
+    version: &str,
+    output_path: &Path,
+) -> Result<PathBuf, Error> {
+    fetch_template_from_store(
+        DEFAULT_STORE_REPO_URL,
+        DEFAULT_STORE_REPO_BRANCH,
+        DEFAULT_TEMPLATES_DIR_PATH,
+        path,
+        version,
+        output_path,
+    )
 }
 
 /// Reads the metadata file from the given template path.
-/// Returns error if metadata.json is not found.
-pub async fn read_metadata_from_template(template_path: &Path) -> Result<Metadata, Error> {
-    let metadata_path = template_path.join("metadata.json");
+/// Returns error if metadata.json is not found. It must
+/// be placed under `<template path>/.tohum/metadata.json`.
+pub fn read_metadata_from_template(template_path: &Path) -> Result<TemplateMetadata, Error> {
+    let metadata_path = template_path.join(".tohum").join("metadata.json");
 
     if !metadata_path.exists() {
         return Err(Error::msg("\"metadata.json\" not found in the template"));

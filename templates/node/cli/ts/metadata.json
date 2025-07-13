@@ -3,10 +3,12 @@
   "version": "1.0",
   "name": "ts",
   "description": "Node.js project TypeScript included. This template uses tsup as the bundler.",
-  "author": {
-    "name": "Muhammed Karamuk",
-    "url": "https://mkaramuk.dev"
-  },
+  "authors": [
+    {
+      "name": "Muhammed Karamuk",
+      "url": "https://mkaramuk.dev"
+    }
+  ],
   "variables": {
     "version": {
       "type": "string",

@@ -23,17 +23,20 @@
         "type": "string"
       }
     },
-    "author": {
-      "type": "object",
-      "description": "Author details",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the author"
-        },
-        "url": {
-          "type": "string",
-          "description": "URL of the author"
+    "authors": {
+      "type": "array",
+      "description": "List of authors of the template",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the author"
+          },
+          "url": {
+            "type": "string",
+            "description": "URL of the author"
+          }
         }
       },
       "required": ["name"]

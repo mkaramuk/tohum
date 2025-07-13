@@ -3,10 +3,12 @@
   "version": "1.0",
   "name": "cli",
   "group": "go",
-  "author": {
-    "name": "Muhammed Karamuk",
-    "url": "https://mkaramuk.dev"
-  },
+  "authors": [
+    {
+      "name": "Muhammed Karamuk",
+      "url": "https://mkaramuk.dev"
+    }
+  ],
   "variables": {
     "go_version": {
       "description": "The compiler version that is going to be used in .mod file",

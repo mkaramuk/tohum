@@ -1,32 +1,24 @@
 {
   "node": {
     "cli": {
-      "js": [
-        {
-          "version": "1.0.0",
-          "description": "Node.js CLI application template with basic setup."
-        }
-      ],
-      "ts": [
-        {
-          "version": "1.0.0",
-          "description": "Node.js project TypeScript included. This template uses tsup as the bundler."
-        }
-      ]
-    },
-    "react": [
-      {
-        "version": "1.0.0",
-        "description": "React project with TypeScript and Vite setup. This template uses tsup as the bundler."
+      "js": {
+        "description": "Node.js CLI application template with basic setup.",
+        "versions": ["1.0.0"]
+      },
+      "ts": {
+        "description": "Node.js project TypeScript included. This template uses tsup as the bundler.",
+        "versions": ["1.0.0"]
       }
-    ]
+    },
+    "react": {
+      "description": "React project with TypeScript and Vite setup. This template uses tsup as the bundler.",
+      "versions": ["1.0.0"]
+    }
   },
   "go": {
-    "cli": [
-      {
-        "version": "1.0.0",
-        "description": "Go CLI application template with basic setup."
-      }
-    ]
+    "cli": {
+      "description": "Go CLI application template with basic setup.",
+      "versions": ["1.0.0"]
+    }
   }
 }

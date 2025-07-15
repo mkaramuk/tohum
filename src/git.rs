@@ -66,10 +66,39 @@ pub fn fetch_github_directory(
 
     check_exit_status(format!("git pull origin {branch}").as_str(), output)?;
 
-    // Copy to the target
-    fs::rename(temp_path.join(target_path), output_path)?;
+    // Copy to the target (use recursive copy to handle cross-device moves)
+    copy_dir_recursive(&temp_path.join(target_path), output_path)?;
 
     Ok(output_path.to_path_buf())
+}
+
+fn copy_dir_recursive(src: &Path, dst: &Path) -> Result<(), Error> {
+    if !src.exists() {
+        return Err(Error::msg(format!(
+            "Source directory does not exist: {}",
+            src.display()
+        )));
+    }
+
+    if dst.exists() {
+        fs::remove_dir_all(dst)?;
+    }
+
+    fs::create_dir_all(dst)?;
+
+    for entry in fs::read_dir(src)? {
+        let entry = entry?;
+        let src_path = entry.path();
+        let dst_path = dst.join(entry.file_name());
+
+        if src_path.is_dir() {
+            copy_dir_recursive(&src_path, &dst_path)?;
+        } else {
+            fs::copy(&src_path, &dst_path)?;
+        }
+    }
+
+    Ok(())
 }
 
 fn check_exit_status(cmd: &str, output: Output) -> Result<(), Error> {

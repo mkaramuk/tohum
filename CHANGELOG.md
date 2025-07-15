@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0](https://github.com/mkaramuk/tohum/compare/v0.1.0...v0.2.0) - 2025-07-15
+
+### Added
+
+- Add overwrite flag and fix cross-device link error
+
 ## [0.1.0](https://github.com/mkaramuk/tohum/compare/v0.0.2...v0.1.0) - 2025-07-13
 
 ### Added

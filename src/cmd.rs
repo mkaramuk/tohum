@@ -41,6 +41,12 @@ pub fn build_cmd() -> Command {
                         .help(
                             "Output path of the new project. If not given, uses current directory.",
                         ),
+                )
+                .arg(
+                    Arg::new("overwrite")
+                        .long("overwrite")
+                        .action(ArgAction::SetTrue)
+                        .help("Automatically overwrite existing directory without prompting"),
                 ),
         )
         .subcommand(Command::new("store").about("Store commands.").subcommand(

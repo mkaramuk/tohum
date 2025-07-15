@@ -103,12 +103,31 @@ async fn main() -> Result<(), Error> {
                 None => Path::new(&project_name),
             };
 
-            // NOTE: Maybe we can implement a workflow where we ask user to whether delete that existing directory.
+            // Check if output directory exists and handle overwrite
             if output_path.exists() {
-                return Err(Error::msg(format!(
-                    "output directory ({}) is already exist",
-                    output_path.display()
-                )));
+                let should_overwrite = if matches.get_flag("overwrite") {
+                    true
+                } else {
+                    print!(
+                        "Output directory ({}) already exists. Do you want to overwrite it? [y/N]: ",
+                        output_path.display()
+                    );
+                    std::io::Write::flush(&mut std::io::stdout()).unwrap();
+
+                    let mut input = String::new();
+                    std::io::stdin().read_line(&mut input).unwrap();
+                    let input = input.trim().to_lowercase();
+
+                    input == "y" || input == "yes"
+                };
+
+                if !should_overwrite {
+                    return Err(Error::msg("Operation cancelled by user"));
+                }
+
+                std::fs::remove_dir_all(&output_path).map_err(|e| {
+                    Error::msg(format!("Failed to remove existing directory: {}", e))
+                })?;
             }
 
             // TODO: Add functionality to fetch templates from different sources (e.g github, local file system, another stores)

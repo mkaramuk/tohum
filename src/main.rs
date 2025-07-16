@@ -9,7 +9,7 @@ mod template;
 use anyhow::{Error, Result};
 use functions::replace_vars::replace_placeholders_in_dir;
 use names::Generator;
-use std::{collections::HashMap, path::Path};
+use std::{collections::HashMap, path::Path, process::Command};
 
 use crate::{
     store::{
@@ -183,6 +183,12 @@ async fn main() -> Result<(), Error> {
 
             // Apply template engine (aka replace variables from the template files)
             replace_placeholders_in_dir(output_path.to_str().unwrap(), variables)?;
+
+            // Init the git repository in the output
+            Command::new("git")
+                .args(["init"])
+                .current_dir(output_path.to_str().unwrap())
+                .output()?;
 
             spinner.finish_and_clear();
 

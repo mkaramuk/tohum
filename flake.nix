@@ -32,7 +32,7 @@
         toolchain =
           (pkgs.rustChannelOf {
             rustToolchain = ./rust-toolchain.toml;
-            sha256 = "sha256-Qxt8XAuaUR2OMdKbN4u8dBJOhSHxS+uS06Wl9+flVEk=";
+            sha256 = "sha256-+9FmLhAOezBZCOziO0Qct1NOrfpjNsXxc/8I0c7BdKE=";
             #        ^ Update this, in case if the toolchain file has changed. You can get it by
             #          running `nix build`. The hash will appear in the error message.
           }).rust;

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
+  "version": "1.1.0",
+  "name": "ts",
+  "description": "TypeScript/Node.js CLI application with eslint + Prettier + tsup setup",
+  "authors": [
+    {
+      "name": "Muhammed Karamuk",
+      "url": "https://mkaramuk.dev"
+    }
+  ],
+  "variables": {
+    "version": {
+      "type": "string",
+      "default": "1.0.0",
+      "description": "package.json version field"
+    },
+    "description": {
+      "type": "string",
+      "default": "TypeScript project",
+      "description": "package.json description field"
+    },
+    "license": {
+      "type": "string",
+      "default": "ISC",
+      "description": "package.json license field"
+    }
+  }
+}

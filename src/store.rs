@@ -91,7 +91,6 @@ pub fn get_latest_version_of_template(template: &StoreTemplateMetadata) -> Resul
     }
 
     let mut versions = template.versions.clone();
-    versions.sort_by(|a, b| a.cmp(b));
-
+    versions.sort_by(|a, b| b.cmp(a));
     Ok(versions.first().unwrap().clone())
 }

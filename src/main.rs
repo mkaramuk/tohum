@@ -88,9 +88,9 @@ async fn main() -> Result<(), Error> {
                 },
             };
 
-            // If user hasn't passed a project_name variable (to customize it)
+            // If user didn't pass a `project_name` variable (to customize it)
             // we need to pass the project name that we have defined by default
-            // so in the next step that variable can be replaced by the template engine.
+            // so in the next step, this variable can be replaced by the template engine.
             if !variables.contains_key("project_name") {
                 variables.insert(String::from("project_name"), project_name.clone());
             }

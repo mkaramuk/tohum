@@ -1,4 +1,8 @@
-# 🌱 tohum
+<div align="center">
+  <img src="./assets/logo_32_x_32.svg" alt="tohum logo" title="You should finish the projects that you have started" width=100/><br>
+  <h1 style="margin-top: 10px; margin-bottom: 5px;">tohum</h1>
+  <p style="margin-top: 0;"><em>A CLI tool for provisioning projects from templates</em></p>
+</div>
 
 ![Crates.io Version](https://img.shields.io/crates/v/tohum)
 ![GitHub License](https://img.shields.io/github/license/mkaramuk/tohum)

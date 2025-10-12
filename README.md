@@ -78,7 +78,7 @@ $ tohum init node/cli/ts my-super-cli-project
 📁 Location: my-super-cli-project
 ```
 
-Congratulations! You've provisioned your first project using _tohum_!
+Congratulations! You've **tohumed** your first project!
 
 ## Building templates
 

@@ -1,0 +1,24 @@
+{
+  "name": "{{ project_name }}",
+  "version": "{{ version }}",
+  "description": "{{ description }}",
+  "license": "{{ license }}",
+  "author": "{{ author }}",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "scripts": {
+    "lint": "tsc && eslint",
+    "build": "tsc && tsup",
+    "start": "node dist/index.cjs",
+    "dev": "tsc && tsup --silent --onSuccess 'node dist/index.cjs'",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "@types/node": "^22.14.1",
+    "eslint": "^9.35.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.43.0"
+  }
+}

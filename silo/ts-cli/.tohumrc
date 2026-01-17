@@ -1,0 +1,30 @@
+{
+  "$schema": "../../metadata.schema.json",
+  "version": "1.0.0",
+  "name": "ts",
+  "description": "Node.js project that configured for TypeScript. This seed uses \"tsup\" as the bundler.",
+  "authors": [
+    {
+      "name": "Muhammed Karamuk",
+      "email": "me@mkaramuk.dev",
+      "website": "https://mkaramuk.dev"
+    }
+  ],
+  "variables": {
+    "version": {
+      "type": "string",
+      "default": "1.0.0",
+      "description": "package.json version field"
+    },
+    "description": {
+      "type": "string",
+      "default": "TypeScript project",
+      "description": "package.json description field"
+    },
+    "license": {
+      "type": "string",
+      "default": "ISC",
+      "description": "package.json license field"
+    }
+  }
+}

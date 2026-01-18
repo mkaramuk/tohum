@@ -3,7 +3,7 @@
   "version": "{{ version }}",
   "description": "{{ description }}",
   "license": "{{ license }}",
-  "author": "{{ authors }}",
+  "author": "{{ author }}",
   "type": "module",
   "main": "dist/index.cjs",
   "scripts": {

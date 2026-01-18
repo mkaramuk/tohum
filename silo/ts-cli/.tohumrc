@@ -11,6 +11,11 @@
     }
   ],
   "variables": {
+    "author": {
+      "type": "string",
+      "default": "Anonymous",
+      "description": "package.json author field"
+    },
     "version": {
       "type": "string",
       "default": "1.0.0",

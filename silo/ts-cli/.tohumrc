@@ -14,7 +14,8 @@
     "version": {
       "type": "string",
       "default": "1.0.0",
-      "description": "package.json version field"
+      "description": "package.json version field",
+      "required": true
     },
     "description": {
       "type": "string",

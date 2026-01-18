@@ -1,41 +1,39 @@
 {
   "$id": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Metadata",
+  "title": "tohumrc",
   "type": "object",
   "properties": {
     "description": {
-      "type": "string",
-      "description": "Description of the template"
+      "type": "string"
     },
     "version": {
       "type": "string",
-      "description": "Template version. Must be in semver format"
+      "description": "Version of the seed in SemVer format"
     },
     "name": {
-      "type": "string",
-      "description": "Name of template"
+      "type": "string"
     },
     "tags": {
       "type": "array",
-      "description": "Tags for the template",
       "items": {
         "type": "string"
       }
     },
     "authors": {
       "type": "array",
-      "description": "List of authors of the template",
+      "description": "List of authors",
       "items": {
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "description": "Name of the author"
+            "type": "string"
           },
-          "url": {
-            "type": "string",
-            "description": "URL of the author"
+          "email": {
+            "type": "string"
+          },
+          "website": {
+            "type": "string"
           }
         }
       },
@@ -43,21 +41,20 @@
     },
     "variables": {
       "type": "object",
-      "description": "The variables that can be used for the template",
+      "description": "Templating variables",
       "additionalProperties": {
         "type": "object",
         "properties": {
           "type": {
             "type": "string",
-            "enum": ["string", "number"],
-            "description": "Type of the variable"
+            "enum": ["string", "number"]
           },
-          "default": {
-            "description": "Default value of the "
+          "default": {},
+          "required": {
+            "type": "boolean"
           },
           "description": {
-            "type": "string",
-            "description": "Description of the variable"
+            "type": "string"
           }
         },
         "required": ["type", "description"],
@@ -83,5 +80,5 @@
       }
     }
   },
-  "required": ["version", "name", "author"]
+  "required": ["version", "name", "authors"]
 }

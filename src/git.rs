@@ -1,113 +1,49 @@
-use anyhow::Context;
 use anyhow::Error;
 use anyhow::Result;
-use std::fs;
 use std::path::Path;
-use std::path::PathBuf;
 use std::process::Command;
-use std::process::Output;
-use tempfile::TempDir;
 
-/// Fetches a directory from a GitHub repository using git CLI with sparse checkout
-pub fn fetch_github_directory(
-    repo_url: &str,
-    branch: &str,
-    target_path: &str,
-    output_path: &Path,
-) -> Result<PathBuf, Error> {
-    let temp_dir = TempDir::new().context("Failed to create temporary directory")?;
-    let temp_path = temp_dir.path();
+use crate::process::check_exit_status;
 
-    // Initialize an empty repository
+pub fn git_sparse_clone(
+    url: impl AsRef<str>,
+    branch: impl AsRef<str>,
+    glob_pattern: impl AsRef<Path>,
+    output_path: impl AsRef<Path>,
+) -> Result<(), Error> {
     let output = Command::new("git")
-        .args(["init"])
-        .current_dir(temp_path)
+        .arg("clone")
+        .arg("--depth=1")
+        .arg("--filter=blob:none")
+        .arg("--no-checkout")
+        .arg("--single-branch")
+        .arg(format!("--branch={}", branch.as_ref()))
+        .arg(url.as_ref())
+        .arg(output_path.as_ref())
         .output()?;
+    check_exit_status(output)?;
 
-    check_exit_status("git init", output)?;
-
-    // Add remote origin
     let output = Command::new("git")
-        .args(["remote", "add", "origin", repo_url])
-        .current_dir(temp_path)
+        .arg("sparse-checkout")
+        .arg("init")
+        .arg("--no-cone")
+        .current_dir(&output_path)
         .output()?;
+    check_exit_status(output)?;
 
-    check_exit_status("git remote add origin ...", output)?;
-
-    // Enable sparse checkout
     let output = Command::new("git")
-        .args(["config", "core.sparseCheckout", "true"])
-        .current_dir(temp_path)
+        .arg("sparse-checkout")
+        .arg("set")
+        .arg(glob_pattern.as_ref())
+        .current_dir(&output_path)
         .output()?;
+    check_exit_status(output)?;
 
-    check_exit_status("git config core.sparseCheckout true", output)?;
-
-    // Init sparse checkout
     let output = Command::new("git")
-        .args(["sparse-checkout", "init"])
-        .current_dir(temp_path)
+        .arg("checkout")
+        .current_dir(&output_path)
         .output()?;
-
-    check_exit_status("git sparse-checkout init", output)?;
-
-    // Set sparse checkout directory
-    let output = Command::new("git")
-        .args(["sparse-checkout", "set", target_path])
-        .current_dir(temp_path)
-        .output()?;
-
-    check_exit_status("git sparse-checkout set ...", output)?;
-
-    // Pull the directory
-    let output = Command::new("git")
-        .args(["pull", "origin", branch])
-        .current_dir(temp_path)
-        .output()?;
-
-    check_exit_status(format!("git pull origin {branch}").as_str(), output)?;
-
-    // Copy to the target (use recursive copy to handle cross-device moves)
-    copy_dir_recursive(&temp_path.join(target_path), output_path)?;
-
-    Ok(output_path.to_path_buf())
-}
-
-fn copy_dir_recursive(src: &Path, dst: &Path) -> Result<(), Error> {
-    if !src.exists() {
-        return Err(Error::msg(format!(
-            "Source directory does not exist: {}",
-            src.display()
-        )));
-    }
-
-    if dst.exists() {
-        fs::remove_dir_all(dst)?;
-    }
-
-    fs::create_dir_all(dst)?;
-
-    for entry in fs::read_dir(src)? {
-        let entry = entry?;
-        let src_path = entry.path();
-        let dst_path = dst.join(entry.file_name());
-
-        if src_path.is_dir() {
-            copy_dir_recursive(&src_path, &dst_path)?;
-        } else {
-            fs::copy(&src_path, &dst_path)?;
-        }
-    }
-
-    Ok(())
-}
-
-fn check_exit_status(cmd: &str, output: Output) -> Result<(), Error> {
-    if !output.status.success() {
-        return Err(Error::msg(format!(
-            "\"{cmd}\" failed: {}",
-            String::from_utf8_lossy(&output.stderr)
-        )));
-    }
+    check_exit_status(output)?;
 
     Ok(())
 }

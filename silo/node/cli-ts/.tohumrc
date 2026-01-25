@@ -1,7 +1,7 @@
 {
-  "$schema": "../../metadata.schema.json",
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "version": "1.0.0",
-  "name": "@ts/cli",
+  "name": "@node/cli-ts",
   "description": "Node.js project that configured for TypeScript. This seed uses \"tsup\" as the bundler.",
   "authors": [
     {
@@ -11,6 +11,16 @@
     }
   ],
   "variables": {
+    "prettier_tab_width": {
+      "type": "number",
+      "default": 2,
+      "description": ".prettierrc config for tab width"
+    },
+    "node_version": {
+      "type": "string",
+      "default": "node20",
+      "description": "Target node config for tsup (node<major version>)"
+    },
     "author": {
       "type": "string",
       "default": "Anonymous",

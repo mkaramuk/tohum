@@ -8,9 +8,9 @@
   "main": "dist/index.cjs",
   "scripts": {
     "lint": "tsc && eslint",
-    "build": "tsc && tsup",
+    "build": "tsup",
     "start": "node dist/index.cjs",
-    "dev": "tsc && tsup --silent --onSuccess 'node dist/index.cjs'",
+    "dev": "tsup --silent --onSuccess 'node dist/index.cjs'",
     "clean": "rm -rf dist"
   },
   "devDependencies": {

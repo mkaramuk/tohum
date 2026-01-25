@@ -7,7 +7,8 @@ export default defineConfig({
   entry: ["src/index.ts"],
 
   // Everything is going to be bundled so it is fine to use CommonJS
-  // to have better compatibility with Node.js environment
+  // to have better compatibility with Node.js environment. Change or
+  // add ESM if you need.
   format: ["cjs"],
 
   // Clear out directory before build
@@ -21,6 +22,6 @@ export default defineConfig({
   noExternal: [/(.*)/],
 
   outDir: "dist",
-  target: "node20",
+  target: "{{ node_version }}",
   platform: "node",
 });

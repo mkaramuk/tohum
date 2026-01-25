@@ -11,15 +11,9 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
 
-    // Might not be useful, think again and remove if non-sense
     "noUncheckedSideEffectImports": true,
-
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "noErrorTruncation": true,
     "noUncheckedIndexedAccess": true,
-    "noImplicitReturns": true,
-    "noPropertyAccessFromIndexSignature": true,
     "noEmit": true,
 
     "moduleResolution": "Bundler",

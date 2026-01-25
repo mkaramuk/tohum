@@ -1,5 +1,5 @@
 {
   "useTabs": false,
   "tabWidth": {{ prettier_tab_width }},
-  "trailingComma": "es5",
+  "trailingComma": "es5"
 }

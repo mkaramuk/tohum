@@ -4,7 +4,7 @@
   <p style="margin-top: 0;"><em>A CLI tool for planting project seeds</em></p>
 </div>
 
-![Crates.io Version](https://img.shields.io/crates/v/tohum)
+[![Crates.io Version](https://img.shields.io/crates/v/tohum)](https://crates.io/crates/tohum)
 ![GitHub License](https://img.shields.io/github/license/mkaramuk/tohum)
 [![Issues](https://img.shields.io/github/issues/mkaramuk/tohum)](https://github.com/mkaramuk/tohum/issues)
 ![GitHub contributors](https://img.shields.io/github/contributors/mkaramuk/tohum)

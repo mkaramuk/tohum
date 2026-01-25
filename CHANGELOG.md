@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0](https://github.com/mkaramuk/tohum/compare/v0.3.1...v0.4.0) - 2026-01-25
+
+### Added
+
+- [**breaking**] silo and seed abstraction
+- remove nix flake
+- new silo
+- update on .tohumrc format
+- ts-cli template content
+- change experimental seed name
+- experimental .tohumrc implementation
+
+### Fixed
+
+- use sudo to copy
+- *(seed)* trailing comma
+- author variable
+- wrong var name in the template
+
+### Other
+
+- Merge branch 'main' into dev
+
 ## [0.3.1](https://github.com/mkaramuk/tohum/compare/v0.3.0...v0.3.1) - 2025-09-14
 
 ### Fixed

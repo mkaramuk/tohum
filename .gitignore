@@ -1,6 +1,3 @@
 /target
 .idea/
 .vscode/
-
-# Nix output directory sym link
-result

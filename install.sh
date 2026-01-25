@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-cp target/release/tohum /usr/local/bin/tohum
+sudo cp target/release/tohum /usr/local/bin/tohum

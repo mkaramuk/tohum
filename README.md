@@ -1,7 +1,7 @@
 <div align="center">
   <img src="./assets/logo_32_x_32.svg" alt="tohum logo" title="You should finish the projects that you have started" width=100/><br>
   <h1 style="margin-top: 10px; margin-bottom: 5px;">tohum</h1>
-  <p style="margin-top: 0;"><em>A CLI tool for provisioning projects from templates</em></p>
+  <p style="margin-top: 0;"><em>A CLI tool for planting project seeds</em></p>
 </div>
 
 ![Crates.io Version](https://img.shields.io/crates/v/tohum)
@@ -13,11 +13,10 @@
 <img src="./assets/meme.jpg" alt="meme" title="You should finish the projects that you have started" width=200/>
 <hr />
 
-"tohum" (/toˈhuːm/, which means "seed" in Turkish) is a CLI tool that you can use to initialize your new projects from a pre-defined templates that you've chosen. You can also implement your own templates to extend the functionality.
+"tohum" (/toˈhuːm/, meaning "seed" in Turkish) is a CLI tool for initializing new projects from pre-defined seeds (aka templates).
 
 > ⚠️ **WARNING** ⚠️
->
-> tohum is in its early stage of development, expect breaking changes.
+> tohum is in its early stage of development, so expect breaking changes.
 
 ## Installation
 
@@ -28,62 +27,136 @@
 
 ### cargo
 
-Currently tohum is only published on cargo registry which means you can simply use cargo to install it:
+Currently, tohum is only published on the cargo registry, which means you can simply use cargo to install it:
 
 ```sh
 cargo install tohum
 ```
 
-### NixOS
-
-Since it is too early, we haven't attempt to add tohum to nixpkgs but there is a flake defined in the root of the repository which allow you to run, build or include tohum in your own flakes or system configuration.
-
 ### Build from source
 
-Another option (actually this is not super different from installing from cargo) is building from the source code. For this option you must have Rust toolchain. You can install it by simply using [rustup](https://rustup.rs/).
+Another option (which is not very different from installing via cargo) is building from source. For this option you must have a Rust toolchain. You can install it by simply using [rustup](https://rustup.rs/).
 
 ```shell
 git clone https://github.com/mkaramuk/tohum.git && cd tohum
 cargo build --release
-sudo ./install.sh # This installs the binary to `/usr/local/bin/tohum`
+sudo ./install.sh # Installs the binary to /usr/local/bin/tohum (Linux only)
 ```
 
 ## Quickstart
 
-"Store" is the concept that includes all the available templates that can be used with tohum. It is a simple directory that contains some templates and a `store.json` file which includes the metadata about the Store. tohum currently only supports using the default Store which lives in this repository (check the `templates` directory).
-
-Let's list the all the templates from the default Store:
+Let's list all the seeds in the default silo:
 
 ```sh
-$ tohum store list
+$ tohum silo list
 
-📦 Available templates from Store https://raw.githubusercontent.com/mkaramuk/tohum/main/templates/store.json:
-
-  📝 go/cli
-     Go CLI application template with basic setup.
-
-  📝 node/cli/ts
-     Node.js project TypeScript included. This template uses tsup as the bundler.
-
-  📝 node/react
-     React project with TypeScript and Vite setup. This template uses tsup as the bundler.
+🌱 Found 1 seeds in the silo:
+────────────────────────────────────────
+  • @ts/cli
+    Node.js project that configured for TypeScript. This seed uses "tsup" as the bundler.
+    by Muhammed Karamuk
 ```
 
-Now we know what are the available templates that we can use. Pick one and initialize a new project. For example:
+Now we know what are the available seeds that we can use. Pick one and initialize a new project. For example:
 
 ```sh
-$ tohum init node/cli/ts my-super-cli-project
-🎉 Project 'my-super-cli-project' successfully initialized!
-📝 Template: node/cli/ts
-📁 Location: my-super-cli-project
+$ tohum plant @ts/cli my-super-cli-project
+Project my-super-cli-project planted at my-super-cli-project from @ts/cli seed!
 ```
 
-Congratulations! You've **tohumed** your first project!
+Congratulations! You've planted your first _tohum_ (seed)!
 
-## Building templates
+## Building seeds
 
-TODO: Write me!
+A seed is a representation of your template project. It includes all the project files regardless of the framework or programming language in [tera](https://keats.github.io/tera/docs/) templating format and a special file called `.tohumrc`. This file includes all the necessary metadata information for the seed definition that is read by tohum.
+
+### Structure
+
+A typical seed directory looks like this:
+
+```
+my-awesome-seed/
+├── .tohumrc
+└── ... other project files
+```
+
+Here is an example `.tohumrc` file:
+
+```jsonc
+{
+  // JSON schema definition. With this you may have intellisense in your IDE.
+  "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
+
+  // This name will be used in `tohum plant ...` command.
+  "name": "my-seed",
+
+  // An optional version for your seed. If omitted, set to 1.0.0 by default.
+  "version": "1.0.0",
+
+  // An optional description about what is your seed about.
+  "description": "A description of my seed",
+
+  // Optional metadata, tags.
+  "tags": ["rust", "cli"],
+
+  // Your seed must include at least one author.
+  "authors": [
+    {
+      // Required
+      "name": "Jane Doe",
+
+      // Optional
+      "email": "jane@example.com",
+
+      // Optional
+      "website": "https://janedoe.com",
+    },
+  ],
+
+  // All the possible templating variables that can be used with this seed.
+  "variables": {
+    "project_name": {
+      "type": "string",
+
+      "description": "The name of the project",
+    },
+    "license": {
+      // Type of the variable, required
+      "type": "string",
+
+      // Optional, if defined and the user does not explicitly defines
+      // this variable in `tohum plant` command, then this value will be used.
+      "default": "MIT",
+
+      // Optional
+      "description": "License type",
+
+      // Optional, if set to `true` then "tohum plant" forces this variable
+      // to be passed via `-v` flag.
+      "required": true,
+    },
+  },
+}
+```
+
+Some of the variables are auto defined by tohum and always available in your template context:
+
+| Name         | Description                                   | Type                                                                                      |
+| ------------ | --------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| project_name | Project name set inside `tohum plant` command | string                                                                                    |
+| authors      | Authors array set inside `.tohumrc` file      | Array<{ name: string, email: string OR not available, website: string OR not available }> |
+
+### Publishing
+
+Your seeds need to be stored in a silo. A silo is simply a git repository that includes seeds. tohum uses this repository as the default silo (you can find seeds inside silo/ directory). You can structure your silo as you wish as long as it includes valid seeds, tohum will recursively scan the entire repo.
+
+To publish your seeds you have two options:
+
+- Create a silo (a new git repository) and tell people to use `tohum -s <your repo address>` so they will use your silo as the seed source.
+- Open an issue in this repository to add your seed into the default silo.
+
+Since tohum uses git to manage silos, you can even use local git repository as a silo by specifying their path via `-s <local git repo path>` flag.
 
 ## Contributing
 
-We are open for all type of contributions including translations, adding and maintaining templates, feature implementations and bug fixings.
+We are open for all type of contributions including translations, adding and maintaining seeds, feature implementations and bug fixes.

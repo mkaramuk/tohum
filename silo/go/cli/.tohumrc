@@ -1,12 +1,13 @@
 {
   "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "version": "1.0.0",
-  "name": "cli",
+  "name": "@go/cli",
   "description": "Go CLI application template with basic setup.",
   "authors": [
     {
       "name": "Muhammed Karamuk",
-      "url": "https://mkaramuk.dev"
+      "email": "me@mkaramuk.dev",
+      "website": "https://mkaramuk.dev"
     }
   ],
   "variables": {

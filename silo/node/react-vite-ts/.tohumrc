@@ -1,11 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/mkaramuk/tohum/main/metadata.schema.json",
   "version": "1.0.0",
-  "name": "react",
+  "name": "@node/react-vite-ts",
   "authors": [
     {
       "name": "Talha Aksoy",
-      "url": "https://github.com/TalhaAksoy"
+      "website": "https://github.com/TalhaAksoy"
     }
   ]
 }

@@ -22,7 +22,7 @@ use colored::*;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
-    if let Err(err) = run().await {
+    if let Err(err) = run() {
         eprintln!("{}: {}", "Error".red().bold(), err);
         std::process::exit(1);
     }
@@ -30,7 +30,7 @@ async fn main() -> Result<(), Error> {
     Ok(())
 }
 
-async fn run() -> Result<(), Error> {
+fn run() -> Result<(), Error> {
     let _config_path = config::config_path()?;
     let command = cmd::build_cmd();
     let cmd_matches = command.get_matches();

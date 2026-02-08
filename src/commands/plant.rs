@@ -65,7 +65,7 @@ pub fn plant_seed(cmd_matches: &ArgMatches) -> anyhow::Result<()> {
     let mut seed_repo_path = temp_path.to_path_buf();
     seed_repo_path.push(&seed.repo_path);
 
-    git_sparse_clone(&silo_url, &silo_branch, &glob_pattern, &temp_path)?;
+    git_sparse_clone(silo_url, silo_branch, &glob_pattern, temp_path)?;
 
     let mut project_dir = PathBuf::from(&path);
     project_dir.push(project_name);

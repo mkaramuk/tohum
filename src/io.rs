@@ -46,5 +46,5 @@ pub fn is_binary(path: impl AsRef<Path>) -> bool {
     let n = file.read(&mut buffer).unwrap_or(0);
 
     // İlk 1024 byte içinde Null Byte varsa büyük ihtimalle binary'dir
-    buffer[..n].iter().any(|&b| b == 0)
+    buffer[..n].contains(&0)
 }

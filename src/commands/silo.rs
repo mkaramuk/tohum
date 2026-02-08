@@ -24,8 +24,7 @@ pub fn silo_list(cmd_matches: &ArgMatches) -> anyhow::Result<()> {
 
     spinner.finish_and_clear();
     println!(
-        "{} {} {} {}",
-        "🌱",
+        "🌱 {} {} {}",
         "Found".white(),
         seeds.len().to_string().green().bold(),
         "seeds in the silo:".white()
@@ -84,7 +83,7 @@ pub fn silo_inspect(cmd_matches: &ArgMatches) -> anyhow::Result<()> {
         println!("   {}", description.italic().bright_black());
     }
     println!("{}", "─".repeat(50).bright_black());
-    println!("{}", "👥 Authors");
+    println!("👥 Authors");
     for author in &seed.authors {
         let email = if let Some(e) = &author.email {
             format!(" <{}>", e)

@@ -20,9 +20,10 @@ use crate::{
 use anyhow::{Error, Result};
 use colored::*;
 
-fn main() -> Result<(), Error> {
+#[tokio::main]
+async fn main() -> Result<(), Error> {
     if let Err(err) = run() {
-        eprintln!("{}: {}", "Error".red().bold(), err.to_string());
+        eprintln!("{}: {}", "Error".red().bold(), err);
         std::process::exit(1);
     }
 

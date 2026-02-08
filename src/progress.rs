@@ -12,5 +12,5 @@ pub fn create_spinner(message: &str) -> ProgressBar {
     );
     pb.set_message(message.to_string());
 
-    return pb;
+    pb
 }

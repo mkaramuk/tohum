@@ -23,7 +23,7 @@ use colored::*;
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     if let Err(err) = run().await {
-        eprintln!("{}: {}", "Error".red().bold(), err.to_string());
+        eprintln!("{}: {}", "Error".red().bold(), err);
         std::process::exit(1);
     }
 

@@ -30,7 +30,7 @@ pub fn build_cmd() -> Command {
 }
 
 pub fn build_args_silo_source() -> Vec<Arg> {
-    return vec![
+    vec![
         Arg::new(ARGS_SILO_URL)
             .short('s')
             .long("silo")
@@ -47,11 +47,11 @@ pub fn build_args_silo_source() -> Vec<Arg> {
             .global(true)
             .default_value(DEFAULT_SILO_BRANCH)
             .help("Git branch of the silo"),
-    ];
+    ]
 }
 
 pub fn build_sub_cmd_plant() -> Command {
-    return Command::new(CMD_PLANT)
+    Command::new(CMD_PLANT)
         .about("Makes a new project from the chosen")
         .arg(
             Arg::new(ARGS_SEED)
@@ -89,11 +89,11 @@ pub fn build_sub_cmd_plant() -> Command {
                 .long("force")
                 .action(ArgAction::SetTrue)
                 .help("Overwrite if the given path already exists."),
-        );
+        )
 }
 
 pub fn build_sub_cmd_silo() -> Command {
-    return Command::new(CMD_SILO)
+    Command::new(CMD_SILO)
         .about("Silo management commands.")
         .subcommand(
             Command::new(CMD_SILO_LIST)
@@ -111,5 +111,5 @@ pub fn build_sub_cmd_silo() -> Command {
                         .action(ArgAction::Set)
                         .help("Name of the seed in the silo"),
                 ),
-        );
+        )
 }
